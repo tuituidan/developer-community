@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuituidan.openhub.mapper.ArticleMapper">
+
+    <select id="selectList" resultType="com.tuituidan.openhub.pojo.vo.ArticleVO">
+        SELECT id, title, author, topics, tags, top, valuable, visits,
+               collects, approves, "comments", reply_time as replyTime,
+               create_time as createTime, update_time as updateTime,
+               introduction, first_image as firstImage
+        FROM business.dc_article order by coalesce(reply_time,create_time) desc
+    </select>
+
+    <update id="updateTopOrValuable">
+        update business.dc_article set ${type} = #{value} where id = #{id}
+    </update>
+</mapper>

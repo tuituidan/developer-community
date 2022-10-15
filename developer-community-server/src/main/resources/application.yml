@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/db_dc
+    username: root
+    password: 123456
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+server:
+  port: 8081
+mybatis:
+  base-packages: com.tuituidan.openhub.mapper
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.tuituidan.openhub.pojo.entity
+dictionary:
+  type: xlsx

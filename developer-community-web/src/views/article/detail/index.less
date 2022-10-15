@@ -1,0 +1,59 @@
+.main-content {
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+
+  .content-left {
+    width: 880px;
+    background-color: white;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+
+    .article-title {
+      font-size: 26px;
+      text-align: left;
+      padding: 15px;
+    }
+
+    .article-header {
+      position: relative;
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #EBEEF5;
+      .el-avatar {
+        vertical-align: middle;
+      }
+      .content-header-name {
+        margin-left: 8px;
+      }
+      span {
+        font-size: 13px;
+        margin-left: 5px;
+      }
+
+      .el-tag {
+        padding: 0 6px;
+        height: 25px;
+        line-height: 25px;
+      }
+      .article-header-right {
+        right: 10px;
+        display: inline-block;
+        position: absolute;
+        .el-link {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .markdown-body {
+      padding: 20px;
+      text-align: left;
+    }
+  }
+
+  .content-right {
+    width: 305px;
+  }
+}
