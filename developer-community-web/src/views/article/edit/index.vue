@@ -36,33 +36,18 @@
                                      :props="cascader.props"></el-cascader>
                     </el-form-item>
                     <el-form-item label="封面">
-                        <el-upload
-                            class="avatar-uploader"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-change="handlePicturePreview"
-                            :auto-upload="false"
-                            :show-file-list="false">
-                            <img v-if="editItem.firstImage"
-                                 :src="editItem.firstImage"
-                                 class="avatar" alt="1"/>
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-                        <el-alert
-                            class="first-image-tip"
-                            :closable="false"
-                            description="不上传将选择内容中第一张大小合适图片">
-                        </el-alert>
+                        <ttd-uploader v-model="editItem.firstImage"
+                                      :limit="1"
+                                      :initList="editItem.firstImage"
+                                      tip="不上传将选择内容中第一张大小合适图片"
+                                      accept=".png,.jpg,.jpeg,.gif,.bmp"
+                                      list-type="picture-card"></ttd-uploader>
                     </el-form-item>
                     <el-form-item label="附件">
-                        <el-upload
-                            class="upload-demo"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            multiple
-                            :limit="3"
-                            :file-list="fileList">
-                            <el-button size="small" type="primary">点击上传附件</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                        </el-upload>
+                        <ttd-uploader v-model="editItem.filesIds"
+                                      :initList="fileList"
+                                      tip="只能上传图片、压缩包和文档格式，且单个文件夹不超过50MB"
+                                      :data="{type: 'attach-file'}"></ttd-uploader>
                     </el-form-item>
                     <el-form-item>
                         <el-button @click="saveArticle">保存</el-button>
@@ -80,13 +65,14 @@
 @import "index.less";
 </style>
 <style lang="less">
-.fd-cascader-popper{
+.fd-cascader-popper {
     .el-cascader-panel {
-        .el-cascader-menu:first-child{
-            .el-checkbox{
+        .el-cascader-menu:first-child {
+            .el-checkbox {
                 display: none;
             }
-            .el-cascader-node__label{
+
+            .el-cascader-node__label {
                 padding: 0;
             }
         }

@@ -2,11 +2,9 @@ package com.tuituidan.openhub.service;
 
 import com.tuituidan.openhub.consts.DictConsts;
 import com.tuituidan.openhub.mapper.ArticleMapper;
-import com.tuituidan.openhub.mapper.AttachFileMapper;
 import com.tuituidan.openhub.pojo.dto.ArticleDTO;
 import com.tuituidan.openhub.pojo.dto.ArticleSearchDTO;
 import com.tuituidan.openhub.pojo.entity.Article;
-import com.tuituidan.openhub.pojo.entity.AttachFile;
 import com.tuituidan.openhub.pojo.vo.ArticleVO;
 import com.tuituidan.openhub.util.MarkdownUtils;
 import com.tuituidan.openhub.util.SecurityUtils;
@@ -17,18 +15,13 @@ import com.tuituidan.tresdin.mybatis.QueryHelper;
 import com.tuituidan.tresdin.mybatis.bean.PageParam;
 import com.tuituidan.tresdin.page.PageData;
 import com.tuituidan.tresdin.util.BeanExtUtils;
-import com.tuituidan.tresdin.util.StringExtUtils;
 import com.tuituidan.tresdin.util.TransactionUtils;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +43,7 @@ public class ArticleService {
     private IDictionaryService dictionaryService;
 
     @Resource
-    private AttachFileMapper attachFileMapper;
+    private AttachFileService attachFileService;
 
     /**
      * list
@@ -82,8 +75,7 @@ public class ArticleService {
      */
     public String create(ArticleDTO article) {
         Article entity = toEntity(article);
-        entity.setId(StringExtUtils.getUuid())
-                .setTop("2")
+        entity.setTop("2")
                 .setValuable("2")
                 .setVisits(0)
                 .setApproves(0)
@@ -92,11 +84,7 @@ public class ArticleService {
 
         TransactionUtils.execute(() -> {
             articleMapper.insertSelective(entity);
-            if (ArrayUtils.isNotEmpty(article.getFilesIds())) {
-                Arrays.stream(article.getFilesIds())
-                        .map(fileId -> new AttachFile().setId(fileId).setBelongId(entity.getId()))
-                        .forEach(fileItem -> attachFileMapper.updateByPrimaryKeySelective(fileItem));
-            }
+            attachFileService.saveAttachFiles(entity.getId(), article.getFilesIds());
         });
         return entity.getId();
     }
@@ -112,7 +100,7 @@ public class ArticleService {
         entity.setId(id);
         TransactionUtils.execute(() -> {
             articleMapper.updateByPrimaryKeySelective(entity);
-            saveAttachFiles(id, article.getFilesIds());
+            attachFileService.saveAttachFiles(id, article.getFilesIds());
         });
     }
 
@@ -125,33 +113,6 @@ public class ArticleService {
      */
     public void setTopOrValuable(String id, String type, String value) {
         articleMapper.updateTopOrValuable(id, type, value);
-    }
-
-    private void saveAttachFiles(String belongId, String[] fileIds) {
-        List<AttachFile> exists = attachFileMapper.select(new AttachFile().setBelongId(belongId));
-        if (CollectionUtils.isEmpty(exists)) {
-            if (ArrayUtils.isEmpty(fileIds)) {
-                return;
-            }
-            Arrays.stream(fileIds).map(fileId -> new AttachFile().setId(fileId).setBelongId(belongId))
-                    .forEach(fileItem -> attachFileMapper.updateByPrimaryKeySelective(fileItem));
-            return;
-        }
-        Set<String> existIds = exists.stream().map(AttachFile::getId).collect(Collectors.toSet());
-        Set<String> saveIds = ArrayUtils.isEmpty(fileIds)
-                ? new HashSet<>() : Arrays.stream(fileIds).collect(Collectors.toSet());
-        Set<String> deleteIds = new HashSet<>(existIds);
-        // 已经存在的移除掉需要保存的剩下的就是需要删除的
-        deleteIds.removeAll(saveIds);
-        if (CollectionUtils.isNotEmpty(deleteIds)) {
-            attachFileMapper.deleteByIds(StringUtils.join(deleteIds));
-        }
-        // 需要保存移除掉已经存在的就是新增的
-        saveIds.removeAll(existIds);
-        if (CollectionUtils.isNotEmpty(existIds)) {
-            existIds.stream().map(fileId -> new AttachFile().setId(fileId).setBelongId(belongId))
-                    .forEach(fileItem -> attachFileMapper.updateByPrimaryKeySelective(fileItem));
-        }
     }
 
     private Article toEntity(ArticleDTO article) {

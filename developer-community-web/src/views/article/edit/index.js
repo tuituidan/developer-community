@@ -18,34 +18,40 @@ export default {
                 contentHtml: '',
                 filesIds: []
             },
+            fileList: [],
             cascader: {
                 options: [],
                 props: {
                     multiple: true,
-                    emitPath:false,
+                    emitPath: false,
                     checkStrictly: true,
                     value: 'id',
                     label: 'name'
                 }
             },
-            drawerOpen: false,
-            fileList: [
-                {
-                    name: 'food.jpeg',
-                    url: 'https://fuss10.elemecdn.com/'
-                },
-                {
-                    name: 'food2.jpeg',
-                    url: 'https://fuss10.elemecdn.com'
-                }]
+            drawerOpen: false
         };
+    },
+    watch: {
+        $route(to, from) {
+            this.init();
+        }
     },
     mounted() {
         this.$emit('frontHeaderMsg', {hideTopic: true});
         this.requestTags();
-        this.requestItem();
+        this.init();
     },
     methods: {
+        init() {
+            if (this.$route.params.id) {
+                this.requestItem();
+                this.requestAttachFiles();
+            } else {
+                this.editItem = {};
+                this.fileList = [];
+            }
+        },
         requestTags() {
             this.$http.get('/api/v1/data-dict/type/2100000000/tree')
                 .then(res => {
@@ -56,15 +62,31 @@ export default {
                 });
         },
         requestItem() {
-            if (this.$route.params.id) {
-                this.$http.get(`/api/v1/article/${this.$route.params.id}`)
-                    .then(res => {
-                        this.editItem = res.data;
-                    })
-                    .catch(err => {
-                        window.console.error(err);
-                    });
-            }
+            this.$http.get(`/api/v1/article/${this.$route.params.id}`)
+                .then(res => {
+                    this.editItem = res.data;
+                })
+                .catch(err => {
+                    window.console.error(err);
+                });
+        },
+        requestAttachFiles() {
+            this.$http.get(`/api/v1/${this.$route.params.id}/attach/file`)
+                .then(res => {
+                    if (Array.isEmpty(res.data)) {
+                        this.fileList = [];
+                        return;
+                    }
+                    this.fileList = res.data.map(item => (
+                        {
+                            name: item.name,
+                            response: item.id,
+                            url: item.path
+                        }));
+                })
+                .catch(err => {
+                    window.console.error(err);
+                });
         },
         saveArticle() {
             if (!this.editItem.title) {
@@ -92,13 +114,6 @@ export default {
         },
         openDrawer() {
             this.drawerOpen = true;
-        },
-        handlePicturePreview(file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                this.editItem.firstImage = reader.result;
-            };
-            reader.readAsDataURL(file.raw);
         }
     }
 };

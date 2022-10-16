@@ -8,6 +8,10 @@ module.exports = defineConfig({
             '/api': {
                 target: 'http://localhost:8081',
                 changeOrigin: true
+            },
+            '/dcstore': {
+                target: 'http://localhost:9000',
+                changeOrigin: true
             }
         }
     }

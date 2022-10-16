@@ -116,7 +116,7 @@ module.exports = {
         'no-undef': 1,
         'no-undef-init': 2,
         'no-undefined': 2,
-        'no-unused-vars': [2, {'vars': 'all', 'args': 'after-used'}],
+        'no-unused-vars': [1, {'vars': 'all', 'args': 'after-used'}],
         'no-use-before-define': 2,
         'callback-return': 0,
         'global-require': 1,

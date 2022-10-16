@@ -7,6 +7,12 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  application:
+    name: developer-community
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1GB
 server:
   port: 8081
 mybatis:
@@ -15,3 +21,8 @@ mybatis:
   type-aliases-package: com.tuituidan.openhub.pojo.entity
 dictionary:
   type: xlsx
+minio:
+  endpoint: http://127.0.0.1:9000
+  access-key: minio
+  secret-key: minio@123
+  bucket: dcstore

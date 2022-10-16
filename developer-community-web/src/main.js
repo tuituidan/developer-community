@@ -5,6 +5,7 @@ import App from './App.vue';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'mavon-editor/dist/css/index.css';
 import '@/css/index.less';
+import '@/js/common/native-ext';
 import '@/components';
 import '@/plugin';
 import router from './router';

@@ -23,7 +23,7 @@
                     <div class="header-right">
                         <el-button type="primary"
                                    size="small"
-                                   @click="$router.push('/article/edit')"
+                                   @click="$router.push('/article/create')"
                                    icon="el-icon-edit-outline">写文章
                         </el-button>
                         <el-button type="primary"
@@ -248,7 +248,7 @@ export default {
                 height: 45px;
                 line-height: 45px;
 
-                .el-button--text{
+                .el-button--text {
                     color: #606a78;
                 }
 

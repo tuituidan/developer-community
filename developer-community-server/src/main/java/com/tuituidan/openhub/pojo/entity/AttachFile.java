@@ -30,9 +30,7 @@ public class AttachFile implements IEntity<AttachFile> {
 
     private String name;
 
-    private String protocol;
-
-    private String suffix;
+    private String path;
 
     private Long size;
 

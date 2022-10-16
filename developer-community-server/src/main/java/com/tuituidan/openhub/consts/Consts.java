@@ -19,6 +19,11 @@ public class Consts {
     public static final String API_V1 = "/api/v1";
 
     /**
+     * ATTACH_FILE
+     */
+    public static final String ATTACH_FILE = "attach-file";
+
+    /**
      * 与jar同级目录，jar如果放在系统根目录，比如docker环境
      * System.getProperty("user.dir")获取到的是"/"，直接去掉.
      */

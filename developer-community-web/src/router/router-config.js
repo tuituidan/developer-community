@@ -9,8 +9,8 @@ const routerConfig = [
         component: () => import('@/views/article/list/index.vue')
     },
     {
-        path: '/article/edit',
-        name: 'article-edit',
+        path: '/article/create',
+        name: 'article-create',
         component: () => import('@/views/article/edit/index.vue')
     },
     {
