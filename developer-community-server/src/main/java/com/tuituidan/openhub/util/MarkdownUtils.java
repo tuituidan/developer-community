@@ -45,6 +45,8 @@ public class MarkdownUtils {
         }
         for (String identifier : MARKDOWN_IDENTIFIERS) {
             markdown = markdown.replaceAll(identifier, "");
+            markdown = markdown.replaceAll("(!\\[.*\\])(\\(.*\\))|(<img\\b.*?(?:\\>|\\/>))",
+                    "【图片】");
         }
         return markdown.length() > INTRODUCTION_LEN
                 ? markdown.substring(0, INTRODUCTION_LEN) + "..." : markdown;

@@ -41,9 +41,14 @@ export default {
             cascader: {
                 options: [],
                 props: {
+                    // 支持多选
                     multiple: true,
+                    // 多级只显示最后一级文字
                     emitPath: false,
+                    // 父子关联
                     checkStrictly: true,
+                    // 次级菜单展开方式
+                    expandTrigger: 'hover',
                     value: 'id',
                     label: 'name'
                 }

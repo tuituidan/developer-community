@@ -70,6 +70,8 @@
 <style lang="less">
 .fd-cascader-popper {
     .el-cascader-panel {
+
+        // 第一个面板不显示checkbox
         .el-cascader-menu:first-child {
             .el-checkbox {
                 display: none;
@@ -77,6 +79,20 @@
 
             .el-cascader-node__label {
                 padding: 0;
+            }
+        }
+
+        // 第二个面板解决elementui的cascader里面的checkbox默认点击文字不会选中的问题
+        // 将包含checkbox的label宽度覆盖到整个文字即可
+        .el-cascader-menu:nth-child(2) {
+            .el-checkbox {
+                width: calc(100% - 50px);
+                z-index: 10;
+                position: absolute;
+            }
+
+            .el-cascader-node__label {
+                margin-left: 10px;
             }
         }
     }
