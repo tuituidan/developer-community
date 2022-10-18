@@ -23,8 +23,11 @@
                 <el-form size="medium"
                          label-width="60px"
                          style="background-color: white;padding: 0 20px;"
+                         :rules="rules"
+                         :model="editItem"
+                         ref="editForm"
                          @submit.native.prevent>
-                    <el-form-item label="标签" required>
+                    <el-form-item label="标签" prop="tags">
                         <el-cascader :options="cascader.options"
                                      v-model="editItem.tags"
                                      placeholder="请选择文章标签"
@@ -39,19 +42,19 @@
                         <ttd-uploader v-model="editItem.firstImage"
                                       :limit="1"
                                       :initList="editItem.firstImage"
-                                      tip="不上传将选择内容中第一张大小合适图片"
+                                      tip="只能上传图片，支持复制/截图粘贴上传，不上传将尝试获取文章正文中第一张大小合适图片"
                                       accept=".png,.jpg,.jpeg,.gif,.bmp"
                                       list-type="picture-card"></ttd-uploader>
                     </el-form-item>
                     <el-form-item label="附件">
                         <ttd-uploader v-model="editItem.filesIds"
                                       :initList="fileList"
-                                      tip="只能上传图片、压缩包和文档格式，且单个文件夹不超过50MB"
+                                      tip="只能上传常见图片、压缩包和文档等格式，且单个文件不能超过50MB，支持复制粘贴上传"
                                       :data="{type: 'attach-file'}"></ttd-uploader>
                     </el-form-item>
                     <el-form-item>
-                        <el-button @click="saveArticle">保存</el-button>
-                        <el-button type="primary" @click="saveArticle">确认发布</el-button>
+                        <el-button @click="saveArticle()">保存</el-button>
+                        <el-button type="primary" @click="saveArticle('1')">确认发布</el-button>
                     </el-form-item>
                 </el-form>
             </div>

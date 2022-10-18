@@ -2,7 +2,6 @@ package com.tuituidan.openhub.config;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -23,11 +22,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 @EnableOpenApi
 public class SwaggerConfig {
-    /**
-     * 通过配置控制是否开启.
-     */
-    @Value("${swagger.show:true}")
-    private boolean swaggerShow;
 
     /**
      * Docket docket.
@@ -37,7 +31,6 @@ public class SwaggerConfig {
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.OAS_30)
-                .enable(swaggerShow)
                 .groupName("API_1.0")
                 .apiInfo(apiInfo())
                 .select()
@@ -53,11 +46,12 @@ public class SwaggerConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("tresdin-demo")
-                .description("tresdin-demo api。")
+                .title("developer-community")
+                .description("developer-community api。")
                 .contact(new Contact("推推蛋", "", "tuituidan@163.com"))
-                .termsOfServiceUrl("https://gitee.com/tuituidan/tresdin-demo")
+                .termsOfServiceUrl("https://gitee.com/tuituidan/developer-community")
                 .version("1.0.0")
                 .build();
     }
+
 }

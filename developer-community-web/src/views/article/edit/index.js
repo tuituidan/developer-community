@@ -18,6 +18,25 @@ export default {
                 contentHtml: '',
                 filesIds: []
             },
+            rules: {
+                tags: [
+                    {required: true, message: '请选择标签', trigger: 'change'},
+                    {
+                        validator: (rule, value, callback) => {
+                            if (Array.isEmpty(value)) {
+                                callback(new Error('请选择标签'));
+                                return;
+                            }
+                            if (value.length > 5) {
+                                callback(new Error('最多选择五个标签'));
+                                return;
+                            }
+                            callback();
+                        },
+                        trigger: 'change'
+                    }
+                ]
+            },
             fileList: [],
             cascader: {
                 options: [],
@@ -33,7 +52,9 @@ export default {
         };
     },
     watch: {
+        // eslint-disable-next-line
         $route(to, from) {
+            // 新增和编辑公用页面，检测路由来控制数据
             this.init();
         }
     },
@@ -88,7 +109,7 @@ export default {
                     window.console.error(err);
                 });
         },
-        saveArticle() {
+        saveArticle(publish) {
             if (!this.editItem.title) {
                 this.$notify.warning('请填写文章标题');
                 return;
@@ -97,6 +118,15 @@ export default {
                 this.$notify.warning('请填写文章内容');
                 return;
             }
+            this.$refs.editForm.validate(valid => {
+                if (!valid) {
+                    return false;
+                }
+                this.editItem.publish = publish;
+                this.requestSave();
+            });
+        },
+        requestSave() {
             this.editItem.contentHtml = this.$refs.refMd.d_render;
             const ajax = this.$route.params.id
                 ? this.$http.patch(`/api/v1/article/${this.$route.params.id}`, this.editItem)

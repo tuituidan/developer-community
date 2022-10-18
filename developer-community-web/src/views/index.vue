@@ -298,6 +298,10 @@ export default {
             color: #9a9a9a;
             line-height: 20px;
         }
+
+        .el-backtop {
+            z-index: 1600;
+        }
     }
 }
 </style>

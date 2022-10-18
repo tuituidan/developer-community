@@ -60,9 +60,12 @@ public class Article implements IEntity<Article> {
 
     private Integer comments;
 
+    private String publish;
+
     private LocalDateTime replyTime;
 
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
 }

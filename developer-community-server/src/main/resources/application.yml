@@ -11,10 +11,14 @@ spring:
     name: developer-community
   servlet:
     multipart:
-      max-file-size: 100MB
+      max-file-size: 50MB
       max-request-size: 1GB
 server:
   port: 8081
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: false
 mybatis:
   base-packages: com.tuituidan.openhub.mapper
   mapper-locations: classpath:mapper/*.xml

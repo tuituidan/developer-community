@@ -3,14 +3,30 @@
 <mapper namespace="com.tuituidan.openhub.mapper.ArticleMapper">
 
     <select id="selectList" resultType="com.tuituidan.openhub.pojo.vo.ArticleVO">
-        SELECT id, title, author, topics, tags, top, valuable, visits,
-               collects, approves, "comments", reply_time as replyTime,
-               create_time as createTime, update_time as updateTime,
-               introduction, first_image as firstImage
-        FROM business.dc_article order by coalesce(reply_time,create_time) desc
+        SELECT id,
+               title,
+               author,
+               topics,
+               tags,
+               top,
+               valuable,
+               visits,
+               collects,
+               approves,
+               "comments",
+               reply_time  AS replyTime,
+               create_time AS createTime,
+               update_time AS updateTime,
+               introduction,
+               first_image AS firstImage
+        FROM business.dc_article
+        WHERE publish = '1'
+        ORDER BY coalesce(reply_time, create_time) DESC
     </select>
 
     <update id="updateTopOrValuable">
-        update business.dc_article set ${type} = #{value} where id = #{id}
+        UPDATE business.dc_article
+        SET ${type} = #{value}
+        WHERE id = #{id}
     </update>
 </mapper>

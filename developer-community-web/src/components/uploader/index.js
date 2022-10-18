@@ -14,6 +14,10 @@ export default {
             type: Number,
             default: 5
         },
+        fileLimitSize: {
+            type: Number,
+            default: 50 * 1024 * 1024
+        },
         accept: {
             type: String,
             default: '.png,.jpg,.jpeg,.gif,.bmp,.rar,.zip,.tar,.gz,.7z,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.pdf,.txt,.md,.xml'
@@ -51,7 +55,7 @@ export default {
         },
         handlePaste(event) {
             const items = event.clipboardData && event.clipboardData.items;
-            if (Array.isEmpty(items)) {
+            if (!(items && items.length)) {
                 this.$notify.error('当前浏览器不支持粘贴上传，请点击文件选择按钮进行上传！');
                 return;
             }
@@ -64,6 +68,10 @@ export default {
             this.hideUpload = files.length === this.limit;
         },
         beforeUpload(file) {
+            if (file.size > this.fileLimitSize) {
+                this.$notify.error('最大只能上传50MB的文件');
+                return false;
+            }
             const suffix = file.name.substring(file.name.lastIndexOf('.'));
             const allow = this.accept.split(',').includes(suffix.toLowerCase());
             if (!allow) {

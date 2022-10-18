@@ -6,3 +6,7 @@ spring:
     password: ENC#ktHZOyAxa09PASaXGnaWhEbn9VPaz8hs2T8TAHTZrHKn6HE1nxaxzlLhREqS3bvm
 server:
   port: 8081
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true

@@ -29,4 +29,7 @@ public class ArticleDTO {
     private String contentHtml;
 
     private String[] filesIds;
+
+    private String publish;
+
 }
