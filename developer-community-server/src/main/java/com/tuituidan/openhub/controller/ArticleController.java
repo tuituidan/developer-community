@@ -99,10 +99,11 @@ public class ArticleController {
      */
     @ApiOperation("设置是否精品和是否置顶")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/article/{id}/{type:top|valuable}/{value}")
-    public void setArticleValuable(@PathVariable("id") String id,
+    @PatchMapping("/article/{id}/{type:top|best}/{value}")
+    public void updateTopOrBest(@PathVariable("id") String id,
             @PathVariable("type") String type,
             @PathVariable("value") String value) {
-        articleService.setTopOrValuable(id, type, value);
+        articleService.updateTopOrBest(id, type, value);
     }
+
 }

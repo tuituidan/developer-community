@@ -76,7 +76,7 @@ public class ArticleService {
     public String create(ArticleDTO article) {
         Article entity = toEntity(article);
         entity.setTop("2")
-                .setValuable("2")
+                .setBest("2")
                 .setVisits(0)
                 .setApproves(0)
                 .setCollects(0)
@@ -111,8 +111,8 @@ public class ArticleService {
      * @param type type
      * @param value value
      */
-    public void setTopOrValuable(String id, String type, String value) {
-        articleMapper.updateTopOrValuable(id, type, value);
+    public void updateTopOrBest(String id, String type, String value) {
+        articleMapper.updateTopOrBest(id, type, value);
     }
 
     private Article toEntity(ArticleDTO article) {

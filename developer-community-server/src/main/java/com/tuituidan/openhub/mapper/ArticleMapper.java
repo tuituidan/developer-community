@@ -33,7 +33,8 @@ public interface ArticleMapper extends Mapper<Article>, InsertListMapper<Article
      * @param type type
      * @param value value
      */
-    void updateTopOrValuable(@Param("id") String id,
+    void updateTopOrBest(@Param("id") String id,
             @Param("type") String type,
             @Param("value") String value);
+
 }

@@ -50,7 +50,7 @@ public class Article implements IEntity<Article> {
 
     private String top;
 
-    private String valuable;
+    private String best;
 
     private Integer visits;
 

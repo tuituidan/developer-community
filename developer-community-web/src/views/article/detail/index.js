@@ -28,16 +28,6 @@ export default {
         },
         editHandler() {
             this.$router.push(`/article/edit/${this.$route.params.id}`);
-        },
-        setTopOrValuable(type, value) {
-            this.$http.patch(`/api/v1/article/${this.$route.params.id}/${type}/${value}`)
-                .then(() => {
-                    this.item[type] = value;
-                    this.$notify.success('修改成功');
-                })
-                .catch(err => {
-                    window.console.error(err);
-                });
         }
     }
 };

@@ -2,23 +2,25 @@
     <div class="main-content">
         <div class="content-left">
             <el-tabs v-model="activename" @tab-click="tabChange">
-                <el-tab-pane label="最新" name="first"></el-tab-pane>
-                <el-tab-pane label="最热" name="second"></el-tab-pane>
-                <el-tab-pane label="置顶" name="third"></el-tab-pane>
-                <el-tab-pane label="精品" name="forth"></el-tab-pane>
+                <el-tab-pane label="最新" name="the-new"></el-tab-pane>
+                <el-tab-pane label="最热" name="the-hot"></el-tab-pane>
+                <el-tab-pane label="置顶" name="the-top"></el-tab-pane>
+                <el-tab-pane label="精品" name="the-best"></el-tab-pane>
             </el-tabs>
             <div class="content-list">
                 <el-empty v-if="!pageData.datas.length"></el-empty>
                 <div class="content-item" v-for="item in pageData.datas" :key="item.id">
                     <div class="content-header">
-                        <el-avatar :size="20"
-                                   :src="item.authorAvatar"></el-avatar>
-                        <span class="content-header-name" v-text="item.authorName"></span>
+                        <router-link :to="'/user/'+item.author" exact>
+                            <el-avatar :size="20"
+                                       :src="item.authorAvatar"></el-avatar>
+                            <span class="content-header-name" v-text="item.authorName"></span>
+                        </router-link>
                         <el-divider direction="vertical"></el-divider>
                         <span v-text="$timeUtils.prettytime(item.createTime)"></span>
                         <el-divider direction="vertical"></el-divider>
                         <el-tag effect="plain" v-if="item.top==='1'">顶</el-tag>
-                        <el-tag type="danger" effect="plain" v-if="item.valuable==='1'">精</el-tag>
+                        <el-tag type="danger" effect="plain" v-if="item.best==='1'">精</el-tag>
                     </div>
                     <div class="content-body" @click="articleItemClick(item)"
                          @keypress="articleItemClick(item)">

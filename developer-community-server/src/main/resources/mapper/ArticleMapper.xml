@@ -9,7 +9,7 @@
                topics,
                tags,
                top,
-               valuable,
+               best,
                visits,
                collects,
                approves,
@@ -24,7 +24,7 @@
         ORDER BY coalesce(reply_time, create_time) DESC
     </select>
 
-    <update id="updateTopOrValuable">
+    <update id="updateTopOrBest">
         UPDATE business.dc_article
         SET ${type} = #{value}
         WHERE id = #{id}

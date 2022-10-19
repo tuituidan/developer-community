@@ -47,7 +47,7 @@ public class ArticleVO {
 
     private String top;
 
-    private String valuable;
+    private String best;
 
     private Integer visits;
 

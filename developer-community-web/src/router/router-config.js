@@ -24,6 +24,11 @@ const routerConfig = [
         component: () => import('@/views/article/detail/index.vue')
     },
     {
+        path: '/user/:id',
+        name: 'user-index',
+        component: () => import('@/views/user/index.vue')
+    },
+    {
         path: '/faq',
         name: 'faq',
         component: () => import('@/views/faq/index.vue')
