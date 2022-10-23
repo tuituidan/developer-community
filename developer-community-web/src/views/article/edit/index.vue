@@ -12,6 +12,7 @@
         <div style="padding: 0 20px;">
             <mavon-editor ref="refMd"
                           :external-link="false"
+                          @imgAdd="imgAdd"
                           v-model="editItem.contentMarkdown"></mavon-editor>
         </div>
         <el-drawer

@@ -25,6 +25,12 @@ public class UserService {
     @Resource
     private UserMapper userMapper;
 
+    /**
+     * getUser
+     *
+     * @param id id
+     * @return UserVO
+     */
     @Cacheable(key = "#id")
     public UserVO getUser(String id) {
         User user = userMapper.selectByPrimaryKey(id);

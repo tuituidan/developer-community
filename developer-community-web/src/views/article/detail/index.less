@@ -1,10 +1,25 @@
 .main-content {
-  width: 1200px;
+  width: 1260px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
 
+  .content-operation {
+    width: 45px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    position: absolute;
+
+    :deep(.el-badge__content.is-fixed) {
+      right: 20px;
+    }
+  }
+
   .content-left {
+    margin-left: 60px;
     width: 880px;
     background-color: white;
     border-top-left-radius: 2px;
@@ -21,12 +36,15 @@
       text-align: left;
       padding: 10px;
       border-bottom: 1px solid #EBEEF5;
+
       .el-avatar {
         vertical-align: middle;
       }
+
       .content-header-name {
         margin-left: 8px;
       }
+
       span {
         font-size: 13px;
         margin-left: 5px;
@@ -37,10 +55,12 @@
         height: 25px;
         line-height: 25px;
       }
+
       .article-header-right {
         right: 10px;
         display: inline-block;
         position: absolute;
+
         .el-link {
           margin-right: 10px;
         }

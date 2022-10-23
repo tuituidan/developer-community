@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "文章")
 @RestController
-@RequestMapping(Consts.API_V1)
+@RequestMapping(Consts.API_V1 + "/article")
 public class ArticleController {
 
     @Resource
@@ -46,7 +47,7 @@ public class ArticleController {
      */
     @ApiOperation("分页查询文章列表")
     @DataTranslate
-    @GetMapping("/article")
+    @GetMapping
     public PageData<List<ArticleVO>> list(PageParam pageParam, ArticleSearchDTO searchParams) {
         return articleService.list(pageParam, searchParams);
     }
@@ -59,7 +60,7 @@ public class ArticleController {
      */
     @ApiOperation("获取单个文章")
     @DataTranslate
-    @GetMapping("/article/{id}")
+    @GetMapping("/{id}")
     public ArticleVO get(@PathVariable("id") String id) {
         return articleService.get(id);
     }
@@ -72,7 +73,7 @@ public class ArticleController {
      */
     @ApiOperation("新建文章")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/article")
+    @PostMapping
     public String create(@RequestBody ArticleDTO article) {
         return articleService.create(article);
     }
@@ -85,9 +86,21 @@ public class ArticleController {
      */
     @ApiOperation("修改文章")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/article/{id}")
+    @PatchMapping("/{id}")
     public void update(@PathVariable("id") String id, @RequestBody ArticleDTO article) {
         articleService.update(id, article);
+    }
+
+    /**
+     * delete
+     *
+     * @param id id
+     */
+    @ApiOperation("删除文章")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") String id) {
+        articleService.delete(id);
     }
 
     /**
@@ -99,7 +112,7 @@ public class ArticleController {
      */
     @ApiOperation("设置是否精品和是否置顶")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/article/{id}/{type:top|best}/{value}")
+    @PatchMapping("/{id}/{type:top|best}/{value}")
     public void updateTopOrBest(@PathVariable("id") String id,
             @PathVariable("type") String type,
             @PathVariable("value") String value) {

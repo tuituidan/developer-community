@@ -28,6 +28,15 @@ export default {
         },
         editHandler() {
             this.$router.push(`/article/edit/${this.$route.params.id}`);
+        },
+        deleteHandler() {
+            this.$http.delete(`/api/v1/article/${this.$route.params.id}`)
+                .then(() => {
+                    this.$router.push('/');
+                })
+                .catch(err => {
+                    window.console.error(err);
+                });
         }
     }
 };

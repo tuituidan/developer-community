@@ -1,5 +1,5 @@
 <template>
-    <div v-text="userInfo.id"></div>
+    <div v-text="userInfo.name"></div>
 </template>
 
 <script src="./index.js"></script>

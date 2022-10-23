@@ -24,6 +24,7 @@ import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * ArticleService.
@@ -102,6 +103,17 @@ public class ArticleService {
             articleMapper.updateByPrimaryKeySelective(entity);
             attachFileService.saveAttachFiles(id, article.getFilesIds());
         });
+    }
+
+    /**
+     * delete
+     *
+     * @param id id
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(String id) {
+        articleMapper.deleteByPrimaryKey(id);
+        attachFileService.deleteByBelongId(id);
     }
 
     /**

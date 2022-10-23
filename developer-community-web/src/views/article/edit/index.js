@@ -5,6 +5,7 @@
 import '@/css/markdown/github-markdown.min.css';
 import '@/css/markdown/katex.min.css';
 import '@/css/markdown/github.min.css';
+import dataDict from '@/js/data-dict';
 
 export default {
     name: 'front-article-edit',
@@ -79,7 +80,7 @@ export default {
             }
         },
         requestTags() {
-            this.$http.get('/api/v1/data-dict/type/2100000000/tree')
+            this.$http.get(`/api/v1/data-dict/type/${dataDict.TYPE.TAG}/tree`)
                 .then(res => {
                     this.cascader.options = res.data;
                 })
@@ -142,6 +143,21 @@ export default {
                     setTimeout(() => {
                         this.$router.push(`/article/edit/${res.data || this.$route.params.id}`);
                     }, 2000);
+                })
+                .catch(err => {
+                    window.console.error(err);
+                });
+        },
+        imgAdd(pos, $file) {
+            const formData = new FormData();
+            formData.append('file', $file);
+            this.$http.post(
+                '/api/v1/file/actions/upload',
+                formData,
+                {headers: {'Content-Type': 'multipart/form-data'}}
+            )
+                .then(res => {
+                    this.$refs.refMd.$img2Url(pos, res.data);
                 })
                 .catch(err => {
                     window.console.error(err);

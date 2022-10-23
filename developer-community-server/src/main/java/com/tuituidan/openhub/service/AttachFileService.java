@@ -69,4 +69,13 @@ public class AttachFileService {
         }
     }
 
+    /**
+     * deleteByBelongId
+     *
+     * @param belongId belongId
+     */
+    public void deleteByBelongId(String belongId) {
+        attachFileMapper.delete(new AttachFile().setBelongId(belongId));
+    }
+
 }

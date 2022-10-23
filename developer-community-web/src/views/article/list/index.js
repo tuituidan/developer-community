@@ -6,7 +6,7 @@ export default {
     name: 'front-article',
     data() {
         return {
-            activename: 'first',
+            activename: 'the-new',
             pageParam: {
                 offset: 0,
                 limit: 15

@@ -1,5 +1,16 @@
 <template>
     <div class="main-content">
+        <div class="content-operation">
+            <el-badge :value="200" :max="99">
+                <el-button icon="el-icon-thumb" circle></el-button>
+            </el-badge>
+            <el-badge :value="99" :max="99">
+                <el-button icon="el-icon-star-off" circle></el-button>
+            </el-badge>
+            <el-badge :value="0" :hidden="true" :max="99">
+                <el-button icon="el-icon-chat-dot-round" circle></el-button>
+            </el-badge>
+        </div>
         <div class="content-left">
             <div class="article-title" v-text="item.title"></div>
             <div class="article-header">
@@ -20,7 +31,12 @@
                         v-text="tag">
                 </el-tag>
                 <div class="article-header-right">
-                    <el-link @click="editHandler">编辑</el-link>
+                    <el-popconfirm
+                        title="文章删除后不可恢复，确定删除此文章？"
+                        @confirm="deleteHandler">
+                        <el-link slot="reference" icon="el-icon-close">删除</el-link>
+                    </el-popconfirm>
+                    <el-link icon="el-icon-edit" @click="editHandler">编辑</el-link>
                 </div>
             </div>
             <div class="markdown-body" v-html="item.contentHtml"></div>
