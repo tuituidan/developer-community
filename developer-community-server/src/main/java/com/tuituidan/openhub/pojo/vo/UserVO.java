@@ -22,5 +22,8 @@ public class UserVO {
 
     private String name;
 
+    private String username;
+
     private String avatar;
+
 }

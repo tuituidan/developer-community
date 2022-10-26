@@ -18,7 +18,7 @@ http.interceptors.request.use(config => {
 });
 http.interceptors.response.use(res => res, err => {
     if (err.response && err.response.status === 401) {
-        window.location.href = '/login';
+        window.location.href = `/api/v1/login?returnUrl=${window.location.href}`;
         return Promise.reject(err);
     }
     return Promise.reject(err);

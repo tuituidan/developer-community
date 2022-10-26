@@ -8,6 +8,9 @@ import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @CacheConfig(cacheNames = "users")
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Resource
     private UserMapper userMapper;
@@ -35,6 +38,11 @@ public class UserService {
     public UserVO getUser(String id) {
         User user = userMapper.selectByPrimaryKey(id);
         return BeanExtUtils.convert(user, UserVO::new);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userMapper.selectOne(new User().setUsername(username));
     }
 
 }

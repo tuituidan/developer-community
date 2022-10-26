@@ -1,7 +1,11 @@
 package com.tuituidan.openhub.util;
 
 import com.tuituidan.openhub.pojo.vo.UserVO;
+import com.tuituidan.tresdin.util.BeanExtUtils;
 import lombok.experimental.UtilityClass;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * SecurityUtils.
@@ -19,7 +23,14 @@ public class SecurityUtils {
      * @return UserVO
      */
     public static UserVO getCurrentUser() {
-        return new UserVO().setId("64675b7cc5dec362baf57818ce666ad0").setName("朱军函");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            return BeanExtUtils.convert(authentication.getPrincipal(), UserVO::new);
+        }
+        return null;
     }
 
 }

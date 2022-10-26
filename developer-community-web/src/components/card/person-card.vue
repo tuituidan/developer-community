@@ -5,11 +5,11 @@
                 shape="square"
                 :size="55"
                 class="person-header-avatar"
-                src="https://wx.qlogo.cn/mmhead/BO1qQiajiacVkg0BGLGFsdcTMvLpRKZYPhgSkIzxCwf4qoggibcWM3NyA/0">
+                :src="userInfo.avatar">
                 <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" alt="1"/>
             </el-avatar>
             <div class="userinfo">
-                <div class="user-nick" v-text="userName"></div>
+                <div class="user-nick" v-text="userInfo.name"></div>
                 <div class="user-intro" :title="introduction" v-text="introduction"></div>
             </div>
         </div>
@@ -35,9 +35,26 @@ export default {
     name: 'person-card',
     data() {
         return {
-            userName: '推推蛋',
+            userInfo: {
+                name: '',
+                avatar: ''
+            },
             introduction: '暂无个人介绍暂无个人介绍暂无个人介绍暂无个人介绍暂无个人介绍暂无个人介绍暂无个人介绍'
         };
+    },
+    mounted() {
+        this.loadUserInfo();
+    },
+    methods: {
+        loadUserInfo() {
+            this.$http.get('/api/v1/user/current')
+                .then(res => {
+                    this.userInfo = res.data;
+                })
+                .catch(err => {
+                    window.console.error(err);
+                });
+        }
     }
 };
 </script>
